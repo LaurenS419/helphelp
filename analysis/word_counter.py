@@ -11,6 +11,9 @@ def count(transcription):
 
     return counts
 
+def total_count(transcription):
+    return len(transcription)
+
 
 if __name__ == "__main__":
     count()
