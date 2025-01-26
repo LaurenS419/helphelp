@@ -8,24 +8,29 @@
     <link href="../static/output.css" rel="stylesheet">
 </head>
 
-<body class="">
-    <form class="w-1/3" action="/" method="post">
-        <button class="start-interview-btn">Another question</button>
-    </form>
-
-    <div class="min-h-screen flex items-center justify-center bg-violet-50">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 max-w-5xl">
-            <div class="p-4 bg-white rounded-lg shadow-lg">
-                <h2 class="text-xl font-bold mb-4">Answer</h2>
-                <h3>Transcription</h2>
-                    <p>{{ data["transcription"] }}</p>
+<body>
+    <h2 class="flex-initial">{{question}}</h2>
+    <div class="w-full h-full flex-1 min-h-0 flex items-center justify-center gap-5 border">
+        <div class="w-full px-5 py-3 flex-1 rounded-lg bg-violet-100/50">
+            {{data['transciption']}}
+        </div>
+        <div class="w-full px-5 py-3 flex-1 flex flex-col rounded-lg bg-violet-100/50">
+            <div id="feedback" class="flex-1">
+                {{data['feedback']}}
             </div>
-            <div class="p-4 bg-white rounded-lg shadow-lg">
-                <h2 class="text-xl font-bold mb-4">Results</h2>
-                <h3>Feedback</h3>
-                <p>{{ data["feedback"] }}</p>
-                <h3>Total Wordcount</h3>
-                <p>{{ data["total_count"] }}</p>
+            <div id="stats" class="flex-initial flex justify-between">
+                <div>
+                    <span>Words</span>
+                    <span>{{data['total_count']}}</span>
+                </div>
+                <div>
+                    <span>Dense words</span>
+                    <span>{{data['dense_words']}}</span>
+                </div>
+                <div>
+                    <span>Words per minute</span>
+                    <span>{{data['wpm']}}</span>
+                </div>
             </div>
         </div>
     </div>
