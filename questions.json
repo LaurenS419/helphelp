@@ -36,7 +36,6 @@
         "If you realized a mistake you made could delay a project, how would you address it?"
     ],
     "technical": [
-        "How does Python JPL work?",
         "Explain how a hash table works. What is a hash collision, and how can it be resolved?",
         "Explain the difference between an array and a linked list. When would you use one over the other?",
         "How would you handle multiple inheritance in a language that doesn`t directly support it (e.g., Java)?",
