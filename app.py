@@ -7,8 +7,13 @@ import CV.main
 import analysis.transcription_processor
 import analysis.word_counter
 import analysis.chat_calls
+import analysis.word_density
+import random
+import json
 
 app = Flask(__name__)
+
+QUESTION = ""
 
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -19,7 +24,16 @@ def index():
 
 @app.route("/interview", methods=["POST"])
 def start_interview():
-    return render_template("interview.html")
+
+    # get the question selection from main
+    question_type = request.form['question-type']
+
+    with open('questions.json') as f:
+        data = json.load(f)
+        index = random.randrange(0, len(data[question_type]))
+        QUESTION = data[question_type][index]
+
+    return render_template("interview.html", question=QUESTION)
 
 @app.route("/start_record", methods=["POST"])
 def start_recording():
@@ -63,7 +77,6 @@ def upload_audio():
 def run_python_script(file_path):
 
     data = {}
-    question = "" ### GET REAL QUESTION SOMEHOW
 
     # get transcription
     t = transcription.get_trans(file_path)
@@ -73,15 +86,14 @@ def run_python_script(file_path):
     # clean up transition, turn into string of word tokens
     processed = analysis.transcription_processor.process(t)
 
+    print(processed)
+
     # get open ai chat gpt feedback on the response
-    feedback = analysis.chat_calls.get_feedback(question, t)
+    feedback = analysis.chat_calls.get_feedback(QUESTION, t)
 
     # calculated metrics 
-    #counts = analysis.word_counter.count(processed)
     total_count = analysis.word_counter.total_count(processed)
-
-    #print(counts)
-    print(total_count)
+    dense_words = analysis.word_density.find_dense(processed) # indices of dense words
 
     return data
 
