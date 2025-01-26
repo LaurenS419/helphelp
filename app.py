@@ -8,6 +8,8 @@ import analysis.chat_calls
 
 app = Flask(__name__)
 
+QUESTION = ""
+
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
@@ -17,6 +19,10 @@ def index():
 
 @app.route("/interview", methods=["POST"])
 def start_interview():
+
+    # get the question selection from main
+    QUESTION = request.form['question-type']
+
     return render_template("interview.html")
 
 @app.route("/upload_audio", methods=["POST"])
@@ -50,10 +56,9 @@ def upload_audio():
 def run_python_script(file_path):
 
     data = {}
-    question = "" ### GET REAL QUESTION SOMEHOW
 
     # get transcription
-    t = transcription.get_trans(file_path)
+    t = "" #transcription.get_trans(file_path)
 
     print(t)
 
@@ -61,13 +66,11 @@ def run_python_script(file_path):
     processed = analysis.transcription_processor.process(t)
 
     # get open ai chat gpt feedback on the response
-    feedback = analysis.chat_calls.get_feedback(question, t)
+    feedback = analysis.chat_calls.get_feedback(QUESTION, t)
 
     # calculated metrics 
-    #counts = analysis.word_counter.count(processed)
     total_count = analysis.word_counter.total_count(processed)
 
-    #print(counts)
     print(total_count)
 
     return data

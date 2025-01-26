@@ -1,3 +1,4 @@
+## NOT USED
 
 countable_words = ['like', 'um', 'uhm', 'so']
 
