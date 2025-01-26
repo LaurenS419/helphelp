@@ -3,3 +3,4 @@
 *.webm
 __pycache__
 openai-key.txt
+node_modules

@@ -14,6 +14,10 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 def index():
     return render_template("index.html")
 
+@app.route("/interview", methods=["POST"])
+def start_interview():
+    return render_template("interview.html")
+
 @app.route("/upload_audio", methods=["POST"])
 def upload_audio():
     if "audio" not in request.files:
