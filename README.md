@@ -1,4 +1,4 @@
-# mchacks12
+# Help Help
 Interview practice web-app developed for McHacks 12
 
 ## Development
