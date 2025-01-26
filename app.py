@@ -27,7 +27,7 @@ def index():
 
 @app.route("/interview", methods=["POST"])
 def start_interview():
-
+    global QUESTION
     # get the question selection from main
     question_type = request.form['question-type']
 
@@ -54,6 +54,7 @@ def stop_recording():
 
 @app.route("/upload_audio", methods=["POST"])
 def upload_audio():
+    global QUESTION
     if "audio" not in request.files:
         return jsonify({"error": "No audio file uploaded"}), 400
 
@@ -74,7 +75,7 @@ def upload_audio():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
         
-    return render_template("summary.html", data=data)
+    return render_template("summary.html", question=QUESTION, data=data)
 
 
 

@@ -2,14 +2,58 @@
     "general": [
         "Why do you want this job?",
         "Why do you want to work here?",
-        "What makes you a good fit for this position?"
+        "What makes you a good fit for this position?",
+        "Where do you see yourself in 5 years?",
+        "What are you passionate about?",
+        "Tell me about yourself?",
+        "What motivates you to succeed?",
+        "Why are you interested in this position?",
+        "How do you handle criticism?",
+        "How do you handle stress and pressure?",
+        "What are your strengths and weaknesses?",
+        "How would your friends or coworkers describe you?",
+        "What is your greatest strength, and how does it help you succeed?",
+        "What`s one lesson you`ve learned from a mistake you`ve made in the past?",
+        "Who do you look up to as a role model, and what qualities inspire you about them?",
+        "If you could go back and give your younger self one piece of advice, what would it be?",
+        "What drives you to get out of bed in the morning?"
     ],
     "behavioural": [
         "If you got stuck on a task, how would you proceed?",
-        "If you noticed a coworker breaking the rules, what would you do?"
+        "If you noticed a coworker breaking the rules, what would you do?",
+        "How do you prioritize your tasks when dealing with multiple deadlines?",
+        "Tell me about a project you're particularly fond of and why",
+        "Describe a situation where you failed. What did you learn from it?",
+        "How do you ensure clear communication with your team?",
+        "Share an instance where you had to adapt to change",
+        "If you disagreed with your manager's decision, what would you do?",
+        "If you noticed a teammate wasn't contributing, how would you handle this situation?",
+        "If you had limited resources to complete a task, what steps would you take to succeed?",
+        "If you were assigned to work with someone you didn`t get along with, what would you do?",
+        "If you had to delegate a task to someone less experienced, hwo would you ensure success?",
+        "If you were asked to handle multiple tasks with conflicting deadlines, how would you prioritize?",
+        "If you discovered confidential information being shared inappropriately, how would you handle it?",
+        "If you realized a mistake you made could delay a project, how would you address it?"
     ],
     "technical": [
         "How does Python JPL work?",
-        "What is ?"
+        "Explain how a hash table works. What is a hash collision, and how can it be resolved?",
+        "Explain the difference between an array and a linked list. When would you use one over the other?",
+        "How would you handle multiple inheritance in a language that doesn`t directly support it (e.g., Java)?",
+        "Explain the SOLID principles of software design.",
+        "How would you secure a web application against common threats like XSS, CSRF, or SQL injection?",
+        "What is a constructor, and why is it important?",
+        "Explain the difference between mutable and immutable data structures.",
+        "What is a heap? Explain the difference between a min-heap and a max-heap.",
+        "Implement a stack using arrays or linked lists.",
+        "How would you implement a class hierarchy for vehicles (e.g., cars, trucks, and bikes)?",
+        "What is an index in a database? When would you use one?",
+        "What is a deadlock, and how can it be avoided?",
+        "What is the difference between IaaS, PaaS, and SaaS?",
+        "What is paging, and how does it differ from segmentation?",
+        "What are firewalls, and how do they protect networks?",
+        "How does a trie (prefix tree) work? Where would you use it?",
+        "What are the advantages of using a queue versus a deque?",
+        "Explain the difference between IPv4 and IPv6."
     ]
 }
