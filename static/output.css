@@ -563,6 +563,12 @@
   .mb-3 {
     margin-bottom: calc(var(--spacing) * 3);
   }
+  .mb-8 {
+    margin-bottom: calc(var(--spacing) * 8);
+  }
+  .mb-10 {
+    margin-bottom: calc(var(--spacing) * 10);
+  }
   .block {
     display: block;
   }
@@ -604,6 +610,15 @@
   }
   .w-2\/5 {
     width: calc(2/5 * 100%);
+  }
+  .w-\[350px\] {
+    width: 350px;
+  }
+  .w-\[400px\] {
+    width: 400px;
+  }
+  .w-\[500px\] {
+    width: 500px;
   }
   .w-full {
     width: 100%;
@@ -696,14 +711,8 @@
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
   }
-  .px-5 {
-    padding-inline: calc(var(--spacing) * 5);
-  }
   .px-8 {
     padding-inline: calc(var(--spacing) * 8);
-  }
-  .px-10 {
-    padding-inline: calc(var(--spacing) * 10);
   }
   .px-11 {
     padding-inline: calc(var(--spacing) * 11);
@@ -799,7 +808,7 @@
     display: flex;
     gap: calc(var(--spacing) * 3);
   }
-  .question-type > label {
+  .question-type>label {
     flex: 1;
     cursor: pointer;
     border-radius: var(--radius-xl);
@@ -810,10 +819,10 @@
     --tw-font-weight: var(--font-weight-semibold);
     font-weight: var(--font-weight-semibold);
   }
-  .question-type > label:hover {
+  .question-type>label:hover {
     background-color: var(--color-violet-300);
   }
-  .question-type > label:has(input:checked) {
+  .question-type>label:has(input:checked) {
     background-color: var(--color-violet-300);
   }
   .start-interview-btn {
