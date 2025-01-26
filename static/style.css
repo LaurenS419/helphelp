@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 @layer components {
-    html { @apply h-full text-xl; }
+    html { @apply h-full text-lg; }
     body {
         @apply h-full flex flex-col items-center justify-center
         bg-violet-50;
@@ -17,10 +17,10 @@
     }
 
     h2 {
-        @apply w-fit mx-auto text-[200%] font-bold;
+        @apply w-fit mx-auto text-[170%] font-bold;
     }
     h3 {
-        @apply w-fit mx-auto text-[150%] font-bold;
+        @apply w-fit mx-auto text-[140%] font-bold;
     }
     h4 {
         @apply w-fit mx-auto text-[120%] font-bold;
