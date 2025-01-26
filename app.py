@@ -18,6 +18,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route("/")
 def index():
+        
     return render_template("index.html")
 
 @app.route("/interview", methods=["POST"])
@@ -51,14 +52,16 @@ def upload_audio():
         audio = AudioSegment.from_file(input_path, format="webm")
         audio.export(output_path, format="mp3")
         #return jsonify({"message": "Audio uploaded and converted successfully!"}), 200
+        data = run_python_script(output_path)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
         
 
-    # Run the Python script (this can be a custom function or a separate script)
-    result = run_python_script(output_path)
+    return render_template("summary.html", data=data)
 
-    return f"Processing complete", 200
+    
+
+
 
 # Function to run a Python script on the uploaded file
 def run_python_script(file_path):
@@ -81,6 +84,11 @@ def run_python_script(file_path):
     # calculated metrics 
     total_count = analysis.word_counter.total_count(processed)
     dense_words = analysis.word_density.find_dense(processed) # indices of dense words
+
+    data['transcription'] = t
+    data['feedback'] = feedback
+    data['total_count'] = total_count
+    data['dense_words'] = dense_words
 
     return data
 

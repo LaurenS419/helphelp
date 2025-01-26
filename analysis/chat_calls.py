@@ -19,7 +19,7 @@ def get_feedback(question, response):
     completion = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
-        {"role": "developer", "content": "You are a helpful assistant."},
+        {"role": "developer", "content": "You are a helpful assistant that doesn't use markdown."},
         {
             "role": "user",
             "content": PROMPT + " " + question + " " + response
@@ -27,5 +27,6 @@ def get_feedback(question, response):
         ]
     )
 
-    phrase = completion.choices[0].message
+    phrase = completion.choices[0].message.content
+
     return phrase
