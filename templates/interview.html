@@ -7,228 +7,243 @@
     <title>Audio Recorder</title>
     <link href="../static/output.css" rel="stylesheet">
 
-    <!-- Add the CSS for the animated eyes -->
-    <style>
-        /* Ensure the wrap is a flexible container with padding and centered eyes */
+<!-- Add the CSS for the animated eyes -->
+<style>
+    /* Ensure the wrap is a flexible container with padding and centered eyes */
 
-        .wrap {
-            display: block;
-            justify-content: center;
-            /* Horizontally center the eyes */
-            align-items: center;
-            /* Vertically center the eyes */
-            gap: 1rem;
-            /* Space between eyes */
-            padding: 2rem;
-            /* Padding around the eyes */
-            background: transparent;
-            /* Transparent background */
-            max-width: 100%;
-            /* Prevent wrapping */
-            width: 100%;
-            /* Ensure full width of the parent container */
+    .wrap {
+        display: block;
+        justify-content: center;
+        /* Horizontally center the eyes */
+        align-items: center;
+        /* Vertically center the eyes */
+        gap: 1rem;
+        /* Space between eyes */
+        padding: 2rem;
+        /* Padding around the eyes */
+        background: transparent;
+        /* Transparent background */
+        max-width: 100%;
+        /* Prevent wrapping */
+        width: 100%;
+        /* Ensure full width of the parent container */
+    }
+
+    .eye {
+        width: 80px;
+        /* Increase size */
+        height: 80px;
+        /* Increase size */
+        border-radius: 50%;
+        background: #fff;
+        display: inline-block;
+        overflow: hidden;
+        /* Ensure they are side by side */
+        position: relative;
+        /* Positioning for individual eyes */
+        margin: 10px;
+        /* Space between the eyes */
+        z-index: 10;
+    }
+
+    .eye:before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        /* Center the pupil vertically */
+        left: 50%;
+        /* Center the pupil horizontally */
+        width: 20px;
+        /* Size of the pupil */
+        height: 20px;
+        /* Size of the pupil */
+        border-radius: 50%;
+        background: rgba(20, 20, 20, 1);
+        /* Black color for the pupil */
+        transform: translate(-50%, -50%);
+        /* Center the pupil exactly in the middle */
+    }
+
+
+    .eye.grin:after,
+    .eye.sad:after {
+        content: '';
+        position: absolute;
+        width: calc(100% + 20px);
+        height: 0;
+        border-radius: 50%;
+        background: rgb(245 243 255);
+        left: -10px;
+    }
+
+    .eye.grin:after {
+        bottom: -10px;
+    }
+
+    .eye.sad:after {
+        top: -10px;
+    }
+
+    .eye.blink {
+        animation: blink 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    }
+
+    .eye.double-blink {
+        animation: double-blink 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    }
+
+    .eye.grin:before {
+        animation: grinb 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    }
+
+    .eye.grin:after {
+        animation: grina 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    }
+
+    .eye.sad:before {
+        animation: sadb 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    }
+
+    .eye.sad:after {
+        animation: grina 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    }
+
+    .eye.up:before {
+        animation: grinb 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    }
+
+    .eye.down:before {
+        animation: sadb 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+    }
+
+    .eye.d1 {
+        animation-delay: .1s;
+    }
+
+    /* Keyframes for eye animations */
+    @keyframes blink {
+
+        0%,
+        8% {
+            height: 40px;
         }
 
-        .eye {
-            width: 80px;
-            /* Increase size */
-            height: 80px;
-            /* Increase size */
-            border-radius: 50%;
-            background: #fff;
-            display: inline-block;
-            overflow: hidden;
-            /* Ensure they are side by side */
-            position: relative;
-            /* Positioning for individual eyes */
-            margin: 10px;
-            /* Space between the eyes */
-            z-index: 10;
+        10%,
+        12% {
+            height: 5px;
         }
 
-        .eye:before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            /* Center the pupil vertically */
-            left: 50%;
-            /* Center the pupil horizontally */
-            width: 20px;
-            /* Size of the pupil */
-            height: 20px;
-            /* Size of the pupil */
-            border-radius: 50%;
-            background: rgba(20, 20, 20, 1);
-            /* Black color for the pupil */
-            transform: translate(-50%, -50%);
-            /* Center the pupil exactly in the middle */
+        14%,
+        100% {
+            height: 40px;
+        }
+    }
+
+    @keyframes double-blink {
+
+        0%,
+        8% {
+            height: 40px;
         }
 
+        10%,
+        12% {
+            height: 10px;
+        }
 
-        .eye.grin:after,
-        .eye.sad:after {
-            content: '';
-            position: absolute;
-            width: calc(100% + 20px);
+        13% {
+            height: 40px;
+        }
+
+        14%,
+        16% {
             height: 0;
-            border-radius: 50%;
-            background: rgb(245 243 255);
-            left: -10px;
         }
 
-        .eye.grin:after {
-            bottom: -10px;
+        18%,
+        100% {
+            height: 40px;
+        }
+    }
+
+    @keyframes grinb {
+
+        0%,
+        10% {
+            bottom: 0;
         }
 
-        .eye.sad:after {
-            top: -10px;
+        20%,
+        40% {
+            bottom: 50%;
         }
 
-        .eye.blink {
-            animation: blink 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        50%,
+        100% {
+            bottom: 0;
+        }
+    }
+
+    @keyframes grina {
+
+        0%,
+        10% {
+            height: 0;
         }
 
-        .eye.double-blink {
-            animation: double-blink 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        20%,
+        40% {
+            height: 100%;
         }
 
-        .eye.grin:before {
-            animation: grinb 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        50%,
+        100% {
+            height: 0;
+        }
+    }
+
+    @keyframes sadb {
+
+        0%,
+        10% {
+            top: 0;
         }
 
-        .eye.grin:after {
-            animation: grina 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        20%,
+        40% {
+            top: 50%;
         }
 
-        .eye.sad:before {
-            animation: sadb 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        50%,
+        100% {
+            top: 0;
         }
+    }
 
-        .eye.sad:after {
-            animation: grina 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
-        }
-
-        .eye.up:before {
-            animation: grinb 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
-        }
-
-        .eye.down:before {
-            animation: sadb 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
-        }
-
-        .eye.d1 {
-            animation-delay: .1s;
-        }
-
-        /* Keyframes for eye animations */
-        @keyframes blink {
-
-            0%,
-            8% {
-                height: 40px;
-            }
-
-            10%,
-            12% {
-                height: 5px;
-            }
-
-            14%,
-            100% {
-                height: 40px;
-            }
-        }
-
-        @keyframes double-blink {
-
-            0%,
-            8% {
-                height: 40px;
-            }
-
-            10%,
-            12% {
-                height: 10px;
-            }
-
-            13% {
-                height: 40px;
-            }
-
-            14%,
-            16% {
-                height: 0;
-            }
-
-            18%,
-            100% {
-                height: 40px;
-            }
-        }
-
-        @keyframes grinb {
-
-            0%,
-            10% {
-                bottom: 0;
-            }
-
-            20%,
-            40% {
-                bottom: 50%;
-            }
-
-            50%,
-            100% {
-                bottom: 0;
-            }
-        }
-
-        @keyframes grina {
-
-            0%,
-            10% {
-                height: 0;
-            }
-
-            20%,
-            40% {
-                height: 100%;
-            }
-
-            50%,
-            100% {
-                height: 0;
-            }
-        }
-
-        @keyframes sadb {
-
-            0%,
-            10% {
-                top: 0;
-            }
-
-            20%,
-            40% {
-                top: 50%;
-            }
-
-            50%,
-            100% {
-                top: 0;
-            }
-        }
-    </style>
+    .fixed-container {
+    width: 400px; 
+    height: 150px; 
+    display: flex;
+    justify-content: center;
+    
+    align-items: center;
+    
+    overflow: hidden;
+    position: relative;
+    background: transparent; 
+}
+</style>
 </head>
 
 <body class="">
     <div class="w-1/2">
         <h2>{{ question }}</h2>
 
-        <div class="wrap" id="eyes" style="display: none;">
-            <div class="eye">
-                <div class="eyeball"></div>
+        <div class="fixed-container mx-auto ml-50 w-1/3 gap-3 " >
+            <div class="wrap" id="eyes" style="display: none;">
+                <div class="eye">
+                    <div class="eyeball"></div>
+                </div>
             </div>
         </div>
 
@@ -240,12 +255,7 @@
             <button id="recordButton">Start Recording</button>
             <button id="stopButton" disabled hidden>Stop Recording</button>
         </div>
-        <audio id="audioPlayback" controls></audio>
-
-        <div id="results">
-            <p>Blink Rate: <span id="blinkRate">-</span></p>
-            <p>Eye Contact Percentage: <span id="eyeContactPercentage">-</span></p>
-        </div>
+        <audio id="audioPlayback" controls style="display: none;"></audio>
     </div>
 
     <script>
@@ -342,10 +352,6 @@
             fetch("/stop_record", { method: "POST" })
                 .then(response => response.json())
                 .then(data => {
-                    // Display the results
-                    document.getElementById("blinkRate").textContent = data.blink_rate;
-                    document.getElementById("eyeContactPercentage").textContent = data.eye_contact_percentage;
-
                     console.log(data.status); // Log the response from the backend
                 })
                 .catch(error => {
