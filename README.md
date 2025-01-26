@@ -1,5 +1,5 @@
 # mchacks12
-Interview practice
+Interview practice web-app developed for McHacks 12
 
 ## Development
 

@@ -9,6 +9,7 @@ import analysis.transcription_processor
 import analysis.word_counter
 import analysis.chat_calls
 import analysis.word_density
+import analysis.word_per_min
 import random
 import json
 
@@ -100,11 +101,13 @@ def run_python_script(file_path):
     # calculated metrics 
     total_count = analysis.word_counter.total_count(processed)
     dense_words = analysis.word_density.find_dense(processed) # indices of dense words
+    wpm = round(analysis.word_per_min.get_wpm(len(processed), file_path), 2)
 
     data['transcription'] = t
     data['feedback'] = feedback
     data['total_count'] = total_count
     data['dense_words'] = dense_words
+    data['wpm'] = wpm
 
     return data
 
