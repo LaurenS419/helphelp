@@ -5,6 +5,7 @@ import transcription
 import analysis.transcription_processor
 import analysis.word_counter
 import analysis.chat_calls
+import analysis.word_density
 
 app = Flask(__name__)
 
@@ -58,20 +59,21 @@ def run_python_script(file_path):
     data = {}
 
     # get transcription
-    t = "" #transcription.get_trans(file_path)
+    t = transcription.get_trans(file_path)
 
     print(t)
 
     # clean up transition, turn into string of word tokens
     processed = analysis.transcription_processor.process(t)
 
+    print(processed)
+
     # get open ai chat gpt feedback on the response
     feedback = analysis.chat_calls.get_feedback(QUESTION, t)
 
     # calculated metrics 
     total_count = analysis.word_counter.total_count(processed)
-
-    print(total_count)
+    dense_words = analysis.word_density.find_dense(processed) # indices of dense words
 
     return data
 

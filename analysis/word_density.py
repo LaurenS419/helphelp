@@ -28,7 +28,7 @@ def find_dense(transcription):
 
     return indices
 
-
+#testing purposes
 if __name__ == "__main__":
 
     trans = [
