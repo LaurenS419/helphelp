@@ -6,6 +6,8 @@ import analysis.transcription_processor
 import analysis.word_counter
 import analysis.chat_calls
 import analysis.word_density
+import random
+import json
 
 app = Flask(__name__)
 
@@ -22,9 +24,14 @@ def index():
 def start_interview():
 
     # get the question selection from main
-    QUESTION = request.form['question-type']
+    question_type = request.form['question-type']
 
-    return render_template("interview.html")
+    with open('questions.json') as f:
+        data = json.load(f)
+        index = random.randrange(0, len(data[question_type]))
+        QUESTION = data[question_type][index]
+
+    return render_template("interview.html", question=QUESTION)
 
 @app.route("/upload_audio", methods=["POST"])
 def upload_audio():
