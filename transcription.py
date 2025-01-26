@@ -1,11 +1,30 @@
 from openai import OpenAI
-client = OpenAI()
+import sys
+
+def get_key():
+    file = open("openai-key.txt", "r")
+    key = file.read()
+    file.close()
+    return key
 
 
-audio_file= open("/Rev.mp3", "rb")
-transcription = client.audio.transcriptions.create(
-    model="whisper-1", 
-    file=audio_file
-)
+def get_trans(file_path):
+    print(f"Processing the file at: {file_path}")
 
-print(transcription.text)
+    client = OpenAI(api_key=get_key())
+
+    audio_file= open("uploads/recording.mp3", "rb")
+    transcription = client.audio.transcriptions.create(
+        model="whisper-1", 
+        file=audio_file
+    )
+
+    print(transcription)
+
+
+    return transcription.text
+
+
+
+
+    

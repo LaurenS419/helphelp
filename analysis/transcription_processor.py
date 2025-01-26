@@ -1,6 +1,8 @@
 
 def process(transcription):
-    processed = transcription.strip().split(" ").strip()
+    print(transcription)
+    processed = [word.strip(" ,.?!-") for word in transcription.split(" ") if word.strip() != '']
+    #processed = transcription.split(" ")
 
     return processed
 

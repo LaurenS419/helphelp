@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio Recorder</title>
 </head>
+
 <body>
     <h1>Record Audio</h1>
+    <label for="audioDeviceSelect">Select Audio Device:</label>
+    <select id="audioDeviceSelect">
+        <option value="">Default Device</option>
+    </select>
+    <br>
     <button id="recordButton">Start Recording</button>
     <button id="stopButton" disabled>Stop Recording</button>
     <audio id="audioPlayback" controls></audio>
@@ -14,13 +21,37 @@
     <script>
         let mediaRecorder;
         let audioChunks = [];
+        let stream; // Retain the MediaStream reference
 
         const recordButton = document.getElementById("recordButton");
         const stopButton = document.getElementById("stopButton");
         const audioPlayback = document.getElementById("audioPlayback");
+        const audioDeviceSelect = document.getElementById("audioDeviceSelect");
+
+        // List available audio input devices
+        async function listDevices() {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const audioDevices = devices.filter(device => device.kind === 'audioinput');
+
+            // Populate the device select dropdown with available audio devices
+            audioDevices.forEach(device => {
+                const option = document.createElement('option');
+                option.value = device.deviceId;
+                option.text = device.label || `Device ${device.deviceId}`;
+                audioDeviceSelect.appendChild(option);
+            });
+        }
+
+        // Call the listDevices function when the page loads
+        listDevices();
 
         recordButton.addEventListener("click", async () => {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            // Get the selected audio input device ID
+            const deviceId = audioDeviceSelect.value;
+
+            // Get user media with the selected audio device (if any)
+            const constraints = deviceId ? { audio: { deviceId: { exact: deviceId } } } : { audio: true };
+            stream = await navigator.mediaDevices.getUserMedia(constraints);
             mediaRecorder = new MediaRecorder(stream);
 
             mediaRecorder.ondataavailable = event => {
@@ -58,9 +89,14 @@
 
         stopButton.addEventListener("click", () => {
             mediaRecorder.stop();
+
+            // Stop all tracks in the media stream to free the microphone
+            stream.getTracks().forEach(track => track.stop());
+
             recordButton.disabled = false;
             stopButton.disabled = true;
         });
     </script>
 </body>
+
 </html>
