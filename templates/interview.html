@@ -1,138 +1,120 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Recorder</title>
-    <link href="../static/output.css" rel="stylesheet">
-</head>
-
-<body class="">
-    <div class="w-1/2">
-        <h2>{{ question }}</h2>
-        <label for="audioDeviceSelect">Select Audio Device:</label>
-        <select id="audioDeviceSelect">
-            <option value="">Default Device</option>
-        </select>
-        <div class="mx-auto w-1/3 flex gap-3 justify-center">
-            <button id="recordButton">Start Recording</button>
-            <button id="stopButton" disabled hidden>Stop Recording</button>
+<div id="interviewControls" class="w-1/2">
+    <h2 class="w-[90%] mx-auto text-center">{{ question }}</h2>
+    <label for="audioDeviceSelect">Select Audio Device:</label>
+    <select id="audioDeviceSelect">
+        <option value="">Default Device</option>
+    </select>
+    <div class="mx-auto w-1/3 flex gap-3 justify-center">
+        <button id="startRecordButton">Start Response</button>
+        <button id="stopRecordButton" disabled hidden hx-post="/stop_record">Submit Response</button>
+    </div>
+</div>
+<div id="results" class="w-[90%] h-[60%]" hidden>
+    <h3 class="w-full mx-auto text-center">{{ question }}</h3>
+    <div class="w-full flex">
+        <div id="audioResults" class="flex-1 bg-red-200/30">
+            Audio Results
+            <audio id="audioPlayback" controls></audio>
         </div>
-        <audio id="audioPlayback" controls></audio>
-
-        <div id="results">
-            <p>Blink Rate: <span id="blinkRate">-</span></p>
-            <p>Eye Contact Percentage: <span id="eyeContactPercentage">-</span></p>
+        <div id="videoResults" class="flex-1 bg-blue-200/30">
+            Video results
         </div>
     </div>
+</div>
 
-    <script>
-        let mediaRecorder;
-        let audioChunks = [];
-        let stream; // Retain the MediaStream reference
+<script>
+    let mediaRecorder;
+    let audioChunks = [];
+    let stream; // Retain the MediaStream reference
 
-        const recordButton = document.getElementById("recordButton");
-        const stopButton = document.getElementById("stopButton");
-        const audioPlayback = document.getElementById("audioPlayback");
-        const audioDeviceSelect = document.getElementById("audioDeviceSelect");
+    const startRecordButton = document.getElementById("startRecordButton");
+    const stopRecordButton = document.getElementById("stopRecordButton");
+    const audioPlayback = document.getElementById("audioPlayback");
+    const audioDeviceSelect = document.getElementById("audioDeviceSelect");
 
-        // List available audio input devices
-        async function listDevices() {
-            const devices = await navigator.mediaDevices.enumerateDevices();
-            const audioDevices = devices.filter(device => device.kind === 'audioinput');
+    // List available audio input devices
+    async function listDevices() {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const audioDevices = devices.filter(device => device.kind === 'audioinput');
 
-            // Populate the device select dropdown with available audio devices
-            audioDevices.forEach(device => {
-                const option = document.createElement('option');
-                option.value = device.deviceId;
-                option.text = device.label || `Device ${device.deviceId}`;
-                audioDeviceSelect.appendChild(option);
-            });
+        // Populate the device select dropdown with available audio devices
+        audioDevices.forEach(device => {
+            const option = document.createElement('option');
+            option.value = device.deviceId;
+            option.text = device.label || `Device ${device.deviceId}`;
+            audioDeviceSelect.appendChild(option);
+        });
+    }
+
+    // Call the listDevices function when the page loads
+    listDevices();
+
+    startRecordButton.addEventListener("click", async () => {
+        try {
+            const response = await fetch("/start_record", { method: "POST" });
+            const result = await response.json();
+            console.log(result.status);  // Log the response from the backend
+        } catch (error) {
+            console.error("An error occurred:", error);
         }
 
-        // Call the listDevices function when the page loads
-        listDevices();
+        // Get the selected audio input device ID
+        const deviceId = audioDeviceSelect.value;
 
-        recordButton.addEventListener("click", async () => {
-            try {
-                const response = await fetch("/start_record", { method: "POST" });
-                const result = await response.json();
-                console.log(result.status);  // Log the response from the backend
-            } catch (error) {
-                console.error("An error occurred:", error);
-            }
+        // Get user media with the selected audio device (if any)
+        const constraints = deviceId ? { audio: { deviceId: { exact: deviceId } } } : { audio: true };
+        stream = await navigator.mediaDevices.getUserMedia(constraints);
+        mediaRecorder = new MediaRecorder(stream);
 
-            // Get the selected audio input device ID
-            const deviceId = audioDeviceSelect.value;
+        mediaRecorder.ondataavailable = event => {
+            audioChunks.push(event.data);
+        };
 
-            // Get user media with the selected audio device (if any)
-            const constraints = deviceId ? { audio: { deviceId: { exact: deviceId } } } : { audio: true };
-            stream = await navigator.mediaDevices.getUserMedia(constraints);
-            mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+            audioChunks = [];
 
-            mediaRecorder.ondataavailable = event => {
-                audioChunks.push(event.data);
-            };
+            // Play the audio
+            const audioUrl = URL.createObjectURL(audioBlob);
+            audioPlayback.src = audioUrl;
 
-            mediaRecorder.onstop = () => {
-                const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
-                audioChunks = [];
+            // Upload the audio
+            const formData = new FormData();
+            formData.append("audio", audioBlob, "recording.webm");
 
-                // Play the audio
-                const audioUrl = URL.createObjectURL(audioBlob);
-                audioPlayback.src = audioUrl;
-
-                // Upload the audio
-                const formData = new FormData();
-                formData.append("audio", audioBlob, "recording.webm");
-
-                fetch("/upload_audio", {
-                    method: "POST",
-                    body: formData,
-                }).then(response => response.text())
-                    .then(html => {
-                        // Render the returned HTML in the browser
-                        document.open();
-                        document.write(html);
-                        document.close();
-                    })
-                    .catch(error => {
-                        console.error("Audio upload failed:", error);
-                        alert("Audio upload failed. Please try again.");
-                    });
-            };
-
-            mediaRecorder.start();
-            recordButton.disabled = true;
-            recordButton.hidden = true;
-            stopButton.disabled = false;
-            stopButton.hidden = false;
-        });
-
-        stopButton.addEventListener("click", () => {
-            fetch("/stop_record", { method: "POST" })
-                .then(response => response.json())
-                .then(data => {
-                    // Display the results
-                    document.getElementById("blinkRate").textContent = data.blink_rate;
-                    document.getElementById("eyeContactPercentage").textContent = data.eye_contact_percentage;
-
-                    console.log(data.status); // Log the response from the backend
+            
+            fetch("/upload_audio", {
+                method: "POST",
+                body: formData,
+            }).then(response => response.text())
+                .then(html => {
+                    // Render the returned HTML in the browser
+                    document.open();
+                    document.write(html);
+                    document.close();
                 })
                 .catch(error => {
-                    console.error("An error occurred:", error);
+                    console.error("Audio upload failed:", error);
+                    alert("Audio upload failed. Please try again.");
                 });
+        };
 
-            mediaRecorder.stop();
+        mediaRecorder.start();
+        startRecordButton.disabled = true;
+        startRecordButton.hidden = true;
+        stopRecordButton.disabled = false;
+        stopRecordButton.hidden = false;
+    });
 
-            // Stop all tracks in the media stream to free the microphone
-            stream.getTracks().forEach(track => track.stop());
+    stopRecordButton.addEventListener("click", () => {
+        mediaRecorder.stop();
 
-            recordButton.disabled = false;
-            stopButton.disabled = true;
-        });
-    </script>
-</body>
+        // Stop all tracks in the media stream to free the microphone
+        stream.getTracks().forEach(track => track.stop());
 
-</html>
+        startRecordButton.disabled = false;
+        stopRecordButton.disabled = true;
+        document.getElementById('interviewControls').hidden = true;
+        document.getElementById('results').hidden = false;
+    });
+</script>

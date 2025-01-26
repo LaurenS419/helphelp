@@ -4,29 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Recorder</title>
+    <title>Interview Practice</title>
+    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
     <link href="../static/output.css" rel="stylesheet">
 </head>
 
-<body class="">
-    <form class="w-1/3" action="/interview" method="post">
-        <h1>Interview Practice</h1>
-        <p class="mt-5 mb-3 font-semibold">Pick the type of question to practice:</p>
-        <div class="question-type">
-            <label for="qtA">
-                <input id="qtA" type="radio" name="question-type" value="behavioural" hidden>
-                Behavioural
-            </label>
-            <label for="qtB">
-                <input id="qtB" type="radio" name="question-type" value="technical" hidden>
-                Technical
-            </label>
-            <label for="qtC">
-                <input id="qtC" type="radio" name="question-type" value="general" hidden>
-                General
-            </label>
+<body>
+    <form class="w-full" hx-post="/interview" hx-swap="outerHTML">
+        <h1 class="w-fit mx-auto">Interview Practice</h1>
+        <div class="w-1/3 mx-auto">
+            <p class="mt-5 mb-3 font-semibold">Pick the type of question to practice:</p>
+            <div class="question-type">
+                <label for="qtA">
+                    <input id="qtA" type="radio" name="question-type" value="behavioural" hidden>
+                    Behavioural
+                </label>
+                <label for="qtB">
+                    <input id="qtB" type="radio" name="question-type" value="technical" hidden>
+                    Technical
+                </label>
+                <label for="qtC">
+                    <input id="qtC" type="radio" name="question-type" value="general" hidden>
+                    General
+                </label>
+            </div>
+            <input type="submit" class="start-interview-btn" value="Start Interview">
         </div>
-        <button class="start-interview-btn">Start Interview</button>
     </form>
 </body>
 

@@ -19,10 +19,12 @@ QUESTION = ""
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+
 @app.route("/")
 def index():
         
     return render_template("index.html")
+
 
 @app.route("/interview", methods=["POST"])
 def start_interview():
@@ -37,19 +39,22 @@ def start_interview():
 
     return render_template("interview.html", question=QUESTION)
 
+
 @app.route("/start_record", methods=["POST"])
 def start_recording():
     CV.main.start_record()  
     return jsonify({"status": "Recording started"})
 
+
 @app.route("/stop_record", methods=["POST"])
 def stop_recording():
-    CV.main.stop_record()  
-    blink_rate, eye_contact_percentage = CV.eye_contact.results('logs\eye_log.csv')
-    return jsonify({"status": "Recording stopped",
-                    "blink_rate": blink_rate,
-                    "eye_contact_percentage": eye_contact_percentage
-    })
+    try:
+        CV.main.stop_record()  
+        blink_rate, eye_contact_percentage = CV.eye_contact.results('logs\eye_log.csv')
+    except:
+        blink_rate, eye_contact_percentage = 0, 0
+    return render_template("videoResults.html", blink_rate=blink_rate, eye_contact_percentage=eye_contact_percentage)
+
 
 @app.route("/upload_audio", methods=["POST"])
 def upload_audio():
@@ -64,7 +69,6 @@ def upload_audio():
     audio_file.save(input_path)
 
     # Convert WebM to MP3 using pydub
-    
     try:
         audio = AudioSegment.from_file(input_path, format="webm")
         audio.export(output_path, format="mp3")
@@ -73,12 +77,9 @@ def upload_audio():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
         
-
-    return render_template("summary.html", data=data)
+    return render_template("audioResults.html", data=data)
 
     
-
-
 
 # Function to run a Python script on the uploaded file
 def run_python_script(file_path):

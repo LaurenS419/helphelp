@@ -17,8 +17,15 @@
     }
 
     h2 {
-        @apply w-fit mx-auto text-[200%] font-bold;
+        @apply w-fit mx-auto mb-4
+        text-[200%] leading-[0.9] font-bold;
     }
+    
+    h3 {
+        @apply w-fit mx-auto mb-4
+        text-[150%] leading-[0.9] font-bold;
+    }
+    
 
     .question-type {
         @apply mb-4
