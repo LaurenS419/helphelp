@@ -20,6 +20,11 @@
             <button id="stopButton" disabled hidden>Stop Recording</button>
         </div>
         <audio id="audioPlayback" controls></audio>
+
+        <div id="results">
+            <p>Blink Rate: <span id="blinkRate">-</span></p>
+            <p>Eye Contact Percentage: <span id="eyeContactPercentage">-</span></p>
+        </div>
     </div>
 
     <script>
@@ -105,6 +110,10 @@
             fetch("/stop_record", { method: "POST" })
                 .then(response => response.json())
                 .then(data => {
+                    // Display the results
+                    document.getElementById("blinkRate").textContent = data.blink_rate;
+                    document.getElementById("eyeContactPercentage").textContent = data.eye_contact_percentage;
+
                     console.log(data.status); // Log the response from the backend
                 })
                 .catch(error => {

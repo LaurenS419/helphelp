@@ -545,7 +545,7 @@ def record():
             # Displaying the processed frame
             cv.imshow("Eye Tracking", frame)
             
-            time.sleep(1)
+            time.sleep(0.1)
             
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -562,15 +562,20 @@ def record():
             if PRINT_DATA:
                 print("Writing data to CSV...")
             timestamp_str = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
-            csv_file_name = os.path.join(
-                LOG_FOLDER, f"eye_tracking_log_{timestamp_str}.csv"
-            )
+            # csv_file_name = os.path.join(
+            #     LOG_FOLDER, f"eye_tracking_log_{timestamp_str}.csv"
+            # )
+
+            #TODO: empty the logs folder or make sure the data gets overwritten completely
+            csv_file_name = os.path.join(LOG_FOLDER, f"eye_log.csv")
             with open(csv_file_name, "w", newline="") as file:
                 writer = csv.writer(file)
                 writer.writerow(column_names)  # Writing column names
                 writer.writerows(csv_data)  # Writing data rows
             if PRINT_DATA:
                 print(f"Data written to {csv_file_name}")
+            
+            
 
 def start_record():
     global IS_RECORDING

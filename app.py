@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from pydub import AudioSegment
 import os
+import CV.eye_contact
 import transcription
 
 import CV.main
@@ -43,8 +44,11 @@ def start_recording():
 @app.route("/stop_record", methods=["POST"])
 def stop_recording():
     CV.main.stop_record()  
-    #TODO: do the eye contact processing thing...
-    return jsonify({"status": "Recording stopped"})
+    blink_rate, eye_contact_percentage = CV.eye_contact.results('logs\eye_log.csv')
+    return jsonify({"status": "Recording stopped",
+                    "blink_rate": blink_rate,
+                    "eye_contact_percentage": eye_contact_percentage
+    })
 
 @app.route("/upload_audio", methods=["POST"])
 def upload_audio():
