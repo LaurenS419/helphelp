@@ -6,11 +6,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio Recorder</title>
     <link href="../static/output.css" rel="stylesheet">
+
+    <!-- Add the CSS for the animated eyes -->
+    <style>
+        .uiverse-io {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .eye {
+            background: #ffb703;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset -8px -8px 16px #e09b00, inset 8px 8px 16px #ffd303;
+        }
+
+        .eyeball {
+            background: #023047;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            position: absolute;
+            animation: eyeball-move 5s ease-in-out infinite;
+        }
+
+        @keyframes eyeball-move {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(20px, 10px);
+            }
+
+            50% {
+                transform: translate(0, 20px);
+            }
+
+            75% {
+                transform: translate(-20px, -10px);
+            }
+        }
+    </style>
 </head>
 
 <body class="">
     <div class="w-1/2">
         <h2>{{ question }}</h2>
+
+        <div class="uiverse-io">
+            <div class="eye">
+                <div class="eyeball"></div>
+            </div>
+            <div class="eye">
+                <div class="eyeball"></div>
+            </div>
+        </div>
+
         <label for="audioDeviceSelect">Select Audio Device:</label>
         <select id="audioDeviceSelect">
             <option value="">Default Device</option>
