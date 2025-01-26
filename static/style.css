@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 @layer components {
-    html { @apply h-full; }
+    html { @apply h-full text-xl; }
     body {
         @apply h-full flex flex-col items-center justify-center
         bg-violet-50;
@@ -19,6 +19,12 @@
     h2 {
         @apply w-fit mx-auto text-[200%] font-bold;
     }
+    h3 {
+        @apply w-fit mx-auto text-[150%] font-bold;
+    }
+    h4 {
+        @apply w-fit mx-auto text-[120%] font-bold;
+    }
 
     .question-type {
         @apply mb-4
@@ -29,7 +35,7 @@
         @apply px-5 py-2 
         flex-1 text-center
         cursor-pointer font-semibold
-        rounded-lg bg-violet-200;
+        rounded-xl bg-violet-200;
     }
     .question-type > label:hover {
         @apply bg-violet-300;
@@ -41,18 +47,20 @@
     .start-interview-btn {
         @apply px-5 py-2 w-full 
         cursor-pointer font-semibold
-        rounded-lg bg-violet-200;
+        bg-violet-200;
     }
     .start-interview-btn:hover {
         @apply bg-violet-300;
     }
 
-    button {
+    a, button {
         @apply px-5 py-2 flex-1
-        rounded-lg font-semibold
+        rounded-xl font-semibold
         cursor-pointer bg-violet-200;
     }
-    button:hover {
+    a:hover, button:hover {
         @apply bg-violet-300;
     }
+
+    
 }

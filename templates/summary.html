@@ -9,27 +9,38 @@
 </head>
 
 <body>
-    <h2 class="flex-initial">{{question}}</h2>
-    <div class="w-full h-full flex-1 min-h-0 flex items-center justify-center gap-5 border">
-        <div class="w-full px-5 py-3 flex-1 rounded-lg bg-violet-100/50">
-            {{data['transciption']}}
+    <h2 class="mt-8 flex-initial">{{question}}</h2>
+    <div class="w-full h-full min-h-0 p-8 pt-6 flex-1 flex items-center justify-center gap-8">
+        <div class="w-full h-full px-8 py-5 flex-1 flex flex-col gap-5 justify-start rounded-3xl bg-violet-200/60">
+            <div class="flex-1">
+                <h3 class="mb-2">Your Response</h3>
+                {% for word in data['transcription'] %}
+                    {% if word[0] in data['dense_words'] %} 
+                        <span class="bg-yellow-400/60 px-0.5 py-[1px] rounded-sm">{{ word[1] }}</span>
+                    {% else %}
+                        {{ word[1] }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <a href="/" class="mx-auto w-2/5 flex-initial text-center">New Question</a>
         </div>
-        <div class="w-full px-5 py-3 flex-1 flex flex-col rounded-lg bg-violet-100/50">
-            <div id="feedback" class="flex-1">
+        <div class="w-full h-full flex-1 flex flex-col gap-6">
+            <div id="feedback" class="px-8 py-5 flex-1 rounded-3xl bg-violet-200/60">
+                <h3 class="mb-2">Feedback</h3>
                 {{data['feedback']}}
             </div>
-            <div id="stats" class="flex-initial flex justify-between">
-                <div>
-                    <span>Words</span>
-                    <span>{{data['total_count']}}</span>
+            <div id="stats" class="flex-initial flex justify-between gap-5">
+                <div class="px-4 py-3 flex-1 flex flex-col justify-center items-center rounded-2xl bg-violet-300/60">
+                    <h4>Words</h4>
+                    <h2>{{data['total_count']}}</h2>
                 </div>
-                <div>
-                    <span>Dense words</span>
-                    <span>{{data['dense_words']}}</span>
+                <div class="px-4 py-4 flex-1 flex flex-col justify-center items-center rounded-2xl bg-violet-300/60" >
+                    <h4>Words/min</h4>
+                    <h2>{{data['wpm']}}</h2>
                 </div>
-                <div>
-                    <span>Words per minute</span>
-                    <span>{{data['wpm']}}</span>
+                <div class="px-4 py-3 flex-1 flex flex-col justify-center items-center rounded-2xl bg-violet-300/60">
+                    <h4>Eye Contact</h4>
+                    <h2>{{60}}%</h2>
                 </div>
             </div>
         </div>

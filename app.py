@@ -87,7 +87,7 @@ def run_python_script(file_path):
     data = {}
 
     # get transcription
-    t = transcription.get_trans(file_path)
+    t = 'Hello? Help, help, help. I don\'t know how to answer this question.'#transcription.get_trans(file_path)
 
     print(t)
 
@@ -104,7 +104,8 @@ def run_python_script(file_path):
     dense_words = analysis.word_density.find_dense(processed) # indices of dense words
     wpm = round(analysis.word_per_min.get_wpm(len(processed), file_path), 2)
 
-    data['transcription'] = t
+    print(list(enumerate(processed)))
+    data['transcription'] = list(enumerate(t.split()))
     data['feedback'] = feedback
     data['total_count'] = total_count
     data['dense_words'] = dense_words
