@@ -9,9 +9,14 @@
 </head>
 
 <body class="">
+    <h1>Summary</h1>
+    <h2>Transcription</h2>
+    <p>{{ data["transcription"] }}</p>
+    <h2>Feedback</h2>
+    <p>{{ data["feedback"] }}</p>
+    <h2>Total Wordcount</h2>
+    <p>{{ data["total_count"] }}</p>
     <form class="w-1/3" action="/" method="post">
-        <h1>Summary</h1>
-        <p>{{ data[feedback] }}</p>
         <button class="start-interview-btn">Another question</button>
     </form>
 </body>

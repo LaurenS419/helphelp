@@ -4,3 +4,4 @@
 __pycache__
 openai-key.txt
 node_modules
+*.csv

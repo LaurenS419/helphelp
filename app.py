@@ -45,7 +45,7 @@ def start_recording():
 @app.route("/stop_record", methods=["POST"])
 def stop_recording():
     CV.main.stop_record()  
-    blink_rate, eye_contact_percentage = CV.eye_contact.results('logs\eye_log.csv')
+    blink_rate, eye_contact_percentage = CV.eye_contact.results('logs/eye_log.csv') # \ for windows?
     return jsonify({"status": "Recording stopped",
                     "blink_rate": blink_rate,
                     "eye_contact_percentage": eye_contact_percentage
@@ -73,10 +73,9 @@ def upload_audio():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
         
-
     return render_template("summary.html", data=data)
 
-    
+
 
 
 
