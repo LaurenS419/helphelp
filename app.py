@@ -78,8 +78,6 @@ def upload_audio():
 
 
 
-
-
 # Function to run a Python script on the uploaded file
 def run_python_script(file_path):
 
