@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    html { @apply h-full; }
+    body {
+        @apply h-full flex flex-col items-center justify-center
+        bg-violet-50;
+    }
+
+    h1 {
+        @apply mx-auto w-fit 
+        bg-black/25 text-4xl;
+    }
+
+    .question-type {
+        @apply mb-5
+        flex gap-3;
+    }
+
+    .question-type > label {
+        @apply px-5 py-2 
+        flex-1
+        cursor-pointer
+        rounded-lg border-2 border-transparent bg-violet-200;
+    }
+    .question-type > label:has(input:checked) {
+        @apply border-violet-500;
+    }
+}
