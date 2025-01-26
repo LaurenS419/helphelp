@@ -4,6 +4,7 @@ import os
 import transcription
 import analysis.transcription_processor
 import analysis.word_counter
+import analysis.chat_calls
 
 app = Flask(__name__)
 
@@ -48,21 +49,28 @@ def upload_audio():
 # Function to run a Python script on the uploaded file
 def run_python_script(file_path):
 
+    data = {}
+    question = "" ### GET REAL QUESTION SOMEHOW
+
+    # get transcription
     t = transcription.get_trans(file_path)
 
-    #print(t)
+    print(t)
 
+    # clean up transition, turn into string of word tokens
     processed = analysis.transcription_processor.process(t)
 
-    #print(processed)
+    # get open ai chat gpt feedback on the response
+    feedback = analysis.chat_calls.get_feedback(question, t)
 
-    counts = analysis.word_counter.count(processed)
+    # calculated metrics 
+    #counts = analysis.word_counter.count(processed)
     total_count = analysis.word_counter.total_count(processed)
 
     print(counts)
     print(total_count)
 
-    return transcription
+    return data
 
 
 
