@@ -1,8 +1,6 @@
 ## Help Help
 Interview practice web-app developed for McHacks 12
 
-## Interview Practice
-
 Finding internships is hard 😭 (as you know). So when you get the chance to have an interview, you better nail it 💪.
 
 ##What it does
