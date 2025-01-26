@@ -67,7 +67,7 @@ def run_python_script(file_path):
     #counts = analysis.word_counter.count(processed)
     total_count = analysis.word_counter.total_count(processed)
 
-    print(counts)
+    #print(counts)
     print(total_count)
 
     return data
