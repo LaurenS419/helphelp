@@ -74,15 +74,15 @@
             </div>
         </div>
 
-        <label for="audioDeviceSelect">Select Audio Device:</label>
-        <select id="audioDeviceSelect">
+        <label for="audioDeviceSelect" style="display: none;">Select Audio Device:</label>
+        <select id="audioDeviceSelect" style="display: none;">
             <option value="">Default Device</option>
         </select>
         <div class="mx-auto w-1/3 flex gap-3 justify-center">
             <button id="recordButton">Start Recording</button>
             <button id="stopButton" disabled hidden>Stop Recording</button>
         </div>
-        <audio id="audioPlayback" controls></audio>
+        <audio id="audioPlayback" controls style="display: none;"></audio>
 
         <div id="results">
             <p>Blink Rate: <span id="blinkRate">-</span></p>

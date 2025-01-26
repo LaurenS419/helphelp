@@ -2,9 +2,9 @@ from flask import Flask, render_template, request, jsonify
 from pydub import AudioSegment
 import os
 import CV.eye_contact
+import CV.main
 import transcription
 
-import CV.main
 import analysis.transcription_processor
 import analysis.word_counter
 import analysis.chat_calls
