@@ -1,0 +1,15 @@
+{
+    "general": [
+        "Why do you want this job?",
+        "Why do you want to work here?",
+        "What makes you a good fit for this position?"
+    ],
+    "behavioural": [
+        "If you got stuck on a task, how would you proceed?",
+        "If you noticed a coworker breaking the rules, what would you do?"
+    ],
+    "technical": [
+        "How does Python JPL work?",
+        "What is ?"
+    ]
+}

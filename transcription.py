@@ -19,9 +19,6 @@ def get_trans(file_path):
         file=audio_file
     )
 
-    print(transcription)
-
-
     return transcription.text
 
 
