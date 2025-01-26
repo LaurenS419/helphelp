@@ -2,10 +2,11 @@ from flask import Flask, render_template, request, jsonify
 from pydub import AudioSegment
 import os
 import transcription
+
 import CV.main
-# import analysis.transcription_processor
-# import analysis.word_counter
-# import analysis.chat_calls
+import analysis.transcription_processor
+import analysis.word_counter
+import analysis.chat_calls
 
 app = Flask(__name__)
 
@@ -54,35 +55,35 @@ def upload_audio():
         
 
     # Run the Python script (this can be a custom function or a separate script)
-    #result = run_python_script(output_path)
+    result = run_python_script(output_path)
 
     return f"Processing complete", 200
 
 # Function to run a Python script on the uploaded file
-# def run_python_script(file_path):
+def run_python_script(file_path):
 
-#     data = {}
-#     question = "" ### GET REAL QUESTION SOMEHOW
+    data = {}
+    question = "" ### GET REAL QUESTION SOMEHOW
 
-#     # get transcription
-#     t = transcription.get_trans(file_path)
+    # get transcription
+    t = transcription.get_trans(file_path)
 
-#     print(t)
+    print(t)
 
-#     # clean up transition, turn into string of word tokens
-#     processed = analysis.transcription_processor.process(t)
+    # clean up transition, turn into string of word tokens
+    processed = analysis.transcription_processor.process(t)
 
-#     # get open ai chat gpt feedback on the response
-#     feedback = analysis.chat_calls.get_feedback(question, t)
+    # get open ai chat gpt feedback on the response
+    feedback = analysis.chat_calls.get_feedback(question, t)
 
-#     # calculated metrics 
-#     #counts = analysis.word_counter.count(processed)
-#     total_count = analysis.word_counter.total_count(processed)
+    # calculated metrics 
+    #counts = analysis.word_counter.count(processed)
+    total_count = analysis.word_counter.total_count(processed)
 
-#     #print(counts)
-#     print(total_count)
+    #print(counts)
+    print(total_count)
 
-#     return data
+    return data
 
 
 
