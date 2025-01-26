@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, jsonify
 from pydub import AudioSegment
 import os
 import transcription
+
+import CV.main
 import analysis.transcription_processor
 import analysis.word_counter
 import analysis.chat_calls
@@ -33,6 +35,17 @@ def start_interview():
         QUESTION = data[question_type][index]
 
     return render_template("interview.html", question=QUESTION)
+
+@app.route("/start_record", methods=["POST"])
+def start_recording():
+    CV.main.start_record()  
+    return jsonify({"status": "Recording started"})
+
+@app.route("/stop_record", methods=["POST"])
+def stop_recording():
+    CV.main.stop_record()  
+    #TODO: do the eye contact processing thing...
+    return jsonify({"status": "Recording stopped"})
 
 @app.route("/upload_audio", methods=["POST"])
 def upload_audio():

@@ -50,6 +50,14 @@
         listDevices();
 
         recordButton.addEventListener("click", async () => {
+            try {
+                const response = await fetch("/start_record", { method: "POST" });
+                const result = await response.json();
+                console.log(result.status);  // Log the response from the backend
+            } catch (error) {
+                console.error("An error occurred:", error);
+            }
+
             // Get the selected audio input device ID
             const deviceId = audioDeviceSelect.value;
 
@@ -98,6 +106,15 @@
         });
 
         stopButton.addEventListener("click", () => {
+            fetch("/stop_record", { method: "POST" })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.status); // Log the response from the backend
+                })
+                .catch(error => {
+                    console.error("An error occurred:", error);
+                });
+
             mediaRecorder.stop();
 
             // Stop all tracks in the media stream to free the microphone
