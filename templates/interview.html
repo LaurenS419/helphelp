@@ -8,15 +8,14 @@
 </head>
 <body class="">
     <div class="w-1/2">
-        <h2>Question 1</h2>
-        <h3>(Enter question here)</h3>
+        <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit?</h2>
         <label for="audioDeviceSelect">Select Audio Device:</label>
         <select id="audioDeviceSelect">
             <option value="">Default Device</option>
         </select>
-        <div class="w-full flex gap-3">
+        <div class="mx-auto w-1/3 flex gap-3 justify-center">
             <button id="recordButton">Start Recording</button>
-            <button id="stopButton" disabled>Stop Recording</button>
+            <button id="stopButton" disabled hidden>Stop Recording</button>
         </div>
         <audio id="audioPlayback" controls></audio>
     </div>
@@ -87,7 +86,9 @@
 
             mediaRecorder.start();
             recordButton.disabled = true;
+            recordButton.hidden = true;
             stopButton.disabled = false;
+            stopButton.hidden = false;
         });
 
         stopButton.addEventListener("click", () => {
