@@ -16,11 +16,11 @@
                 <div class="flex-1">
                     <h3 class="mb-2">Your Response</h3>
                     {% for word in data['transcription'] %}
-                        {% if word[0] in data['dense_words'] %} 
-                            <span class="bg-yellow-400/60 px-0.5 py-[1px] rounded-sm">{{ word[1] }}</span>
-                        {% else %}
-                            {{ word[1] }}
-                        {% endif %}
+                    {% if word[0] in data['dense_words'] %}
+                    <span class="bg-yellow-400/60 px-0.5 py-[1px] rounded-sm">{{ word[1] }}</span>
+                    {% else %}
+                    {{ word[1] }}
+                    {% endif %}
                     {% endfor %}
                 </div>
                 <a href="/" class="mx-auto w-2/5 flex-initial text-center">New Question</a>
@@ -31,17 +31,20 @@
                     {{data['feedback']}}
                 </div>
                 <div id="stats" class="flex-initial flex justify-between gap-5">
-                    <div class="px-4 py-3 flex-1 flex flex-col justify-center items-center rounded-2xl bg-violet-300/60">
+                    <div
+                        class="px-4 py-3 flex-1 flex flex-col justify-center items-center rounded-2xl bg-violet-300/60">
                         <h4>Words</h4>
                         <h2>{{data['total_count']}}</h2>
                     </div>
-                    <div class="px-4 py-4 flex-1 flex flex-col justify-center items-center rounded-2xl bg-violet-300/60" >
+                    <div
+                        class="px-4 py-4 flex-1 flex flex-col justify-center items-center rounded-2xl bg-violet-300/60">
                         <h4>Words/min</h4>
                         <h2>{{data['wpm']}}</h2>
                     </div>
-                    <div class="px-4 py-3 flex-1 flex flex-col justify-center items-center rounded-2xl bg-violet-300/60">
+                    <div
+                        class="px-4 py-3 flex-1 flex flex-col justify-center items-center rounded-2xl bg-violet-300/60">
                         <h4>Eye Contact</h4>
-                        <h2>{{60}}%</h2>
+                        <h2 id="eyeContact">{{eye_contact}}%</h2>
                     </div>
                 </div>
             </div>

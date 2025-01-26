@@ -12,7 +12,8 @@
     <div class="w-1/2">
         <h2>{{ question }}</h2>
 
-        <div class="w-[275px] h-[150px] mx-auto my-12 scale-175 flex justify-center items-center relative bg-transparent w-1/3 gap-3 " >
+        <div
+            class="w-[275px] h-[150px] mx-auto my-12 scale-175 flex justify-center items-center relative bg-transparent w-1/3 gap-3 ">
             <div class="wrap" id="eyes" style="display: none;">
                 <div class="eye">
                     <div class="eyeball"></div>
@@ -82,9 +83,10 @@
                 audioChunks.push(event.data);
             };
 
-            mediaRecorder.onstop = () => {
+            mediaRecorder.onstop = async () => {
                 const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
                 audioChunks = [];
+
 
                 // Play the audio
                 const audioUrl = URL.createObjectURL(audioBlob);

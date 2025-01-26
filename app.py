@@ -16,6 +16,7 @@ import json
 app = Flask(__name__)
 
 QUESTION = ""
+EYE_CONTACT = 61
 
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -45,8 +46,11 @@ def start_recording():
 
 @app.route("/stop_record", methods=["POST"])
 def stop_recording():
+    global EYE_CONTACT
     CV.main.stop_record()  
     blink_rate, eye_contact_percentage = CV.eye_contact.results('logs/eye_log.csv') # \ for windows?
+
+    EYE_CONTACT = eye_contact_percentage
     return jsonify({"status": "Recording stopped",
                     "blink_rate": blink_rate,
                     "eye_contact_percentage": eye_contact_percentage
@@ -55,6 +59,7 @@ def stop_recording():
 @app.route("/upload_audio", methods=["POST"])
 def upload_audio():
     global QUESTION
+    global EYE_CONTACT
     if "audio" not in request.files:
         return jsonify({"error": "No audio file uploaded"}), 400
 
@@ -75,7 +80,7 @@ def upload_audio():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
         
-    return render_template("summary.html", question=QUESTION, data=data)
+    return render_template("summary.html", question=QUESTION, data=data, eye_contact=EYE_CONTACT)
 
 
 
