@@ -85,7 +85,7 @@ def run_python_script(file_path):
     data = {}
 
     # get transcription
-    t = 'Hello? Help, help, help. I don\'t know how to answer this question.'#transcription.get_trans(file_path)
+    t = transcription.get_trans(file_path)
 
     print(t)
 
