@@ -9,53 +9,214 @@
 
     <!-- Add the CSS for the animated eyes -->
     <style>
-        .uiverse-io {
-            display: flex;
-            gap: 1rem;
+        /* Ensure the wrap is a flexible container with padding and centered eyes */
+
+        .wrap {
+            display: block;
             justify-content: center;
+            /* Horizontally center the eyes */
             align-items: center;
-            margin-top: 20px;
+            /* Vertically center the eyes */
+            gap: 1rem;
+            /* Space between eyes */
+            padding: 2rem;
+            /* Padding around the eyes */
+            background: transparent;
+            /* Transparent background */
+            max-width: 100%;
+            /* Prevent wrapping */
+            width: 100%;
+            /* Ensure full width of the parent container */
         }
 
         .eye {
-            background: #ffb703;
             width: 80px;
+            /* Increase size */
             height: 80px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            /* Increase size */
             border-radius: 50%;
-            position: relative;
+            background: #fff;
+            display: inline-block;
             overflow: hidden;
-            box-shadow: inset -8px -8px 16px #e09b00, inset 8px 8px 16px #ffd303;
+            /* Ensure they are side by side */
+            position: relative;
+            /* Positioning for individual eyes */
+            margin: 10px;
+            /* Space between the eyes */
+            z-index: 10;
         }
 
-        .eyeball {
-            background: #023047;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+        .eye:before {
+            content: '';
             position: absolute;
-            animation: eyeball-move 5s ease-in-out infinite;
+            top: 50%;
+            /* Center the pupil vertically */
+            left: 50%;
+            /* Center the pupil horizontally */
+            width: 20px;
+            /* Size of the pupil */
+            height: 20px;
+            /* Size of the pupil */
+            border-radius: 50%;
+            background: rgba(20, 20, 20, 1);
+            /* Black color for the pupil */
+            transform: translate(-50%, -50%);
+            /* Center the pupil exactly in the middle */
         }
 
-        @keyframes eyeball-move {
+
+        .eye.grin:after,
+        .eye.sad:after {
+            content: '';
+            position: absolute;
+            width: calc(100% + 20px);
+            height: 0;
+            border-radius: 50%;
+            background: rgb(245 243 255);
+            left: -10px;
+        }
+
+        .eye.grin:after {
+            bottom: -10px;
+        }
+
+        .eye.sad:after {
+            top: -10px;
+        }
+
+        .eye.blink {
+            animation: blink 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+
+        .eye.double-blink {
+            animation: double-blink 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+
+        .eye.grin:before {
+            animation: grinb 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+
+        .eye.grin:after {
+            animation: grina 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+
+        .eye.sad:before {
+            animation: sadb 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+
+        .eye.sad:after {
+            animation: grina 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+
+        .eye.up:before {
+            animation: grinb 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+
+        .eye.down:before {
+            animation: sadb 4s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+        }
+
+        .eye.d1 {
+            animation-delay: .1s;
+        }
+
+        /* Keyframes for eye animations */
+        @keyframes blink {
 
             0%,
+            8% {
+                height: 40px;
+            }
+
+            10%,
+            12% {
+                height: 5px;
+            }
+
+            14%,
             100% {
-                transform: translate(0, 0);
+                height: 40px;
+            }
+        }
+
+        @keyframes double-blink {
+
+            0%,
+            8% {
+                height: 40px;
             }
 
-            25% {
-                transform: translate(20px, 10px);
+            10%,
+            12% {
+                height: 10px;
             }
 
-            50% {
-                transform: translate(0, 20px);
+            13% {
+                height: 40px;
             }
 
-            75% {
-                transform: translate(-20px, -10px);
+            14%,
+            16% {
+                height: 0;
+            }
+
+            18%,
+            100% {
+                height: 40px;
+            }
+        }
+
+        @keyframes grinb {
+
+            0%,
+            10% {
+                bottom: 0;
+            }
+
+            20%,
+            40% {
+                bottom: 50%;
+            }
+
+            50%,
+            100% {
+                bottom: 0;
+            }
+        }
+
+        @keyframes grina {
+
+            0%,
+            10% {
+                height: 0;
+            }
+
+            20%,
+            40% {
+                height: 100%;
+            }
+
+            50%,
+            100% {
+                height: 0;
+            }
+        }
+
+        @keyframes sadb {
+
+            0%,
+            10% {
+                top: 0;
+            }
+
+            20%,
+            40% {
+                top: 50%;
+            }
+
+            50%,
+            100% {
+                top: 0;
             }
         }
     </style>
@@ -65,10 +226,7 @@
     <div class="w-1/2">
         <h2>{{ question }}</h2>
 
-        <div class="uiverse-io">
-            <div class="eye">
-                <div class="eyeball"></div>
-            </div>
+        <div class="wrap" id="eyes" style="display: none;">
             <div class="eye">
                 <div class="eyeball"></div>
             </div>
@@ -99,6 +257,9 @@
         const stopButton = document.getElementById("stopButton");
         const audioPlayback = document.getElementById("audioPlayback");
         const audioDeviceSelect = document.getElementById("audioDeviceSelect");
+
+        const eyeElement = document.getElementById('eyes');
+
 
         // List available audio input devices
         async function listDevices() {
@@ -171,6 +332,10 @@
             recordButton.hidden = true;
             stopButton.disabled = false;
             stopButton.hidden = false;
+
+            eyeElement.style.display = 'block'; // Change from 'none' to 'block' to show it
+            updateEyes();
+
         });
 
         stopButton.addEventListener("click", () => {
@@ -195,6 +360,49 @@
             recordButton.disabled = false;
             stopButton.disabled = true;
         });
+
+        // Define possible eye types
+        const eyeTypes = ['blink', 'double-blink', 'grin', 'sad', 'up', 'down'];
+
+        // Function to generate a random eye type
+        function getRandomEyeType() {
+            return eyeTypes[Math.floor(Math.random() * eyeTypes.length)];
+        }
+
+        // Function to update eyes within the existing wrap container
+        function updateEyes() {
+            // Select the existing wrap container
+
+            if (eyeElement.style.display != 'none') {
+
+                const wrap = document.querySelector('.wrap');
+
+                if (wrap) {
+                    // Clear the existing eyes inside the wrap container
+                    wrap.innerHTML = '';
+
+                    // Generate a random eye type
+                    const eyeType = getRandomEyeType();
+
+                    // Create the two eyes
+                    const eye1 = document.createElement('div');
+                    const eye2 = document.createElement('div');
+
+                    eye1.className = `eye ${eyeType}`;
+                    eye2.className = `eye ${eyeType}`;
+
+                    // Append the eyes to the wrap container
+                    wrap.appendChild(eye1);
+                    wrap.appendChild(eye2);
+                }
+            }
+        }
+
+        // Run the first update on page load
+        window.onload = () => {
+            updateEyes(); // Initial eyes
+            setInterval(updateEyes, 700); // 7 seconds
+        };
     </script>
 </body>
 
