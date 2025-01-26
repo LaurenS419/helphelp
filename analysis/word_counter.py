@@ -5,8 +5,8 @@ def count(transcription):
     counts = {}
 
     for word in transcription:
-        if word in countable_words:
-            counts[word] = counts.get(word, 0) + 1
+        if word.lower() in countable_words:
+            counts[word.lower()] = counts.get(word.lower(), 0) + 1
 
 
     return counts

@@ -1,2 +1,6 @@
 .venv
+*.mp3
+*.webm
+__pycache__
+openai-key.txt
 node_modules
